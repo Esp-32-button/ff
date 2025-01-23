@@ -1,8 +1,15 @@
 const express = require('express');
+const cors = require('cors'); // Import CORS
 const app = express();
 const port = process.env.PORT || 3000;
 
 let angle = 90; // Default angle of the servo
+
+// Enable CORS for all routes
+app.use(cors());
+
+// Middleware to parse JSON body
+app.use(express.json());
 
 // Endpoint to get the current servo angle
 app.get('/get-angle', (req, res) => {
@@ -10,7 +17,6 @@ app.get('/get-angle', (req, res) => {
 });
 
 // Endpoint to set the servo angle
-app.use(express.json());  // Middleware to parse JSON body
 app.post('/set-angle', (req, res) => {
   const newAngle = req.body.angle;
 
@@ -23,6 +29,7 @@ app.post('/set-angle', (req, res) => {
   }
 });
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
